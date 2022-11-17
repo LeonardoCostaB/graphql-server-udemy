@@ -13,12 +13,6 @@ export const userTypeDefs = gql`
       userName: String!
       indexRef: Int!
       createdAt: String!
+      post: [Post!]!
    }
 `;
-
-// "id": "771",
-// "firstName": "Márcia",
-// "lastName": "Carvalho",
-// "userName": "marcia_carvalho81",
-// "indexRef": 1,
-// "createdAt": "2016-12-08T00:49:39.870Z"

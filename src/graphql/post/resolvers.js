@@ -22,7 +22,7 @@ const post = async (_, { id }, { api }) => {
    return post;
 };
 
-const user = ({ userId }, _, { userDataLoader }) => userDataLoader.load(userId);
+const user = ({ userId }, _, { userDataLoader }) =>  userDataLoader.load(userId);
 
 export const postResolvers = {
    Query: {

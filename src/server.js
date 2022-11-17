@@ -3,6 +3,7 @@ import { ApolloServer } from "apollo-server";
 import { resolvers, typeDefs } from "./graphql/index.js";
 import { api } from "./lib/index.js";
 import { userDataLoader } from "./graphql/user/dataLoaderUser.js";
+import { postDataLoader } from "./graphql/post/postDataLoader.js";
 
 const server = new ApolloServer({
    typeDefs,
@@ -11,6 +12,7 @@ const server = new ApolloServer({
    context: () => {
       return {
          userDataLoader: userDataLoader(),
+         postDataLoader: postDataLoader(),
          api,
          filterParams: (params) => {
             return new URLSearchParams(params);
