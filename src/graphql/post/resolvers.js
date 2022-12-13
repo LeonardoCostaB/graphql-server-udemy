@@ -1,25 +1,20 @@
-const posts = async (_, { urlFilter }, { api, filterParams }) => {
-   const paramsFilterUrl = filterParams(urlFilter);
+const posts = async (_, { urlFilter }, { dataSources }) => {
+   const response = await dataSources.postApi.getPosts(urlFilter);
 
-   const response = await api.get(`/posts/?${paramsFilterUrl}`);
-   const posts = response.data;
-
-   return posts;
+   return response;
 };
 
-const post = async (_, { id }, { api }) => {
-   const response = await api.get(`/posts/${id}`);
+const post = async (_, { id }, { dataSources }) => {
+   const response = await dataSources.postApi.getPost(id);
 
-   const post = await response.data;
-
-   if(typeof post.id === "undefined") {
+   if(typeof response.id === "undefined") {
       return {
          statusCode: 404,
          message: "Post não existe, verifique e tente novamente"
       }
    }
 
-   return post;
+   return response;
 };
 
 const user = ({ userId }, _, { userDataLoader }) =>  userDataLoader.load(userId);
@@ -34,7 +29,6 @@ export const postResolvers = {
    },
    PostResponse: {
       __resolveType: (obj) => {
-         console.log("obj", obj);
          if(typeof obj.statusCode !== "undefined") return "PostNotFoundError";
          if(typeof obj.id !== "undefined") return "Post";
 
