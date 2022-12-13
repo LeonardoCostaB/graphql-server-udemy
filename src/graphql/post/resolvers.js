@@ -17,7 +17,7 @@ const post = async (_, { id }, { dataSources }) => {
    return response;
 };
 
-const user = ({ userId }, _, { userDataLoader }) =>  userDataLoader.load(userId);
+const user = ({ userId }, _, { dataSources }) =>  dataSources.userApi.dataLoader.load(userId);
 
 export const postResolvers = {
    Query: {

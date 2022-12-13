@@ -2,8 +2,8 @@ import "dotenv/config";
 import { ApolloServer } from "apollo-server";
 import { resolvers, typeDefs } from "./graphql/index.js";
 import { api } from "./lib/index.js";
-import { userDataLoader } from "./graphql/user/dataLoaderUser.js";
 import { PostApi } from "./graphql/post/dataSources.js";
+import { UserApi } from "./graphql/user/dataSources.js";
 
 const server = new ApolloServer({
    typeDefs,
@@ -11,7 +11,6 @@ const server = new ApolloServer({
 
    context: () => {
       return {
-         userDataLoader: userDataLoader(),
          api,
          filterParams: (params) => {
             return new URLSearchParams(params);
@@ -21,7 +20,8 @@ const server = new ApolloServer({
 
    dataSources: () => {
       return {
-         postApi: new PostApi()
+         postApi: new PostApi(),
+         userApi: new UserApi()
       }
    }
 });
