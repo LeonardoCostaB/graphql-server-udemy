@@ -1,3 +1,4 @@
+// Query
 const posts = async (_, { urlFilter }, { dataSources }) => {
    const response = await dataSources.postApi.getPosts(urlFilter);
 
@@ -17,12 +18,21 @@ const post = async (_, { id }, { dataSources }) => {
    return response;
 };
 
+// Mutation
+const createPost = async (_, { data }, { dataSources }) => {
+   return await dataSources.postApi.createPost(data);
+};
+
+// Field Resolvers
 const user = ({ userId }, _, { dataSources }) =>  dataSources.userApi.dataLoader.load(userId);
 
 export const postResolvers = {
    Query: {
       posts,
       post
+   },
+   Mutation: {
+      createPost
    },
    Post: {
       user

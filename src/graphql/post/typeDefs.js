@@ -1,9 +1,13 @@
 import { gql } from "apollo-server";
 
 export const postTypeDefs = gql`
-   type Query {
+   extend type Query {
       posts(urlFilter: ApiFilterInput): [Post!]!
       post(id: ID!): PostResponse!
+   }
+
+   extend type Mutation {
+      createPost(data: CreatePostInput!): Post!
    }
 
    union PostResponse = PostNotFoundError | Post
@@ -20,5 +24,11 @@ export const postTypeDefs = gql`
       user: User!
       indexRef: Int!
       createdAt: String!
+   }
+
+   input CreatePostInput {
+      title: String!
+      body: String!
+      userId: String!
    }
 `;
