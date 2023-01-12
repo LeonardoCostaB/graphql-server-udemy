@@ -23,6 +23,14 @@ const createPost = async (_, { data }, { dataSources }) => {
    return await dataSources.postApi.createPost(data);
 };
 
+const updatePost = async (_, { postId, data }, { dataSources }) => {
+   return await dataSources.postApi.updatePost(postId, data);
+};
+
+const deletePost = async (_, { postId }, { dataSources }) => {
+   return await dataSources.postApi.deletePost(postId);
+};
+
 // Field Resolvers
 const user = ({ userId }, _, { dataSources }) =>  dataSources.userApi.dataLoader.load(userId);
 
@@ -32,7 +40,9 @@ export const postResolvers = {
       post
    },
    Mutation: {
-      createPost
+      createPost,
+      updatePost,
+      deletePost
    },
    Post: {
       user
