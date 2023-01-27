@@ -1,3 +1,5 @@
+import bcrypt from "bcrypt";
+
 export const createUserFn = async (data, dataSource) => {
    const user = await createUserInfo(data, dataSource);
 
@@ -5,7 +7,7 @@ export const createUserFn = async (data, dataSource) => {
 };
 
 export const updateUserFn = async (userId , userInfo, dataSource) => {
-   const { firstName, lastName, userName } = userInfo;
+   const { firstName, lastName, userName, password } = userInfo;
 
    if(!userId) throw new Error("userId is required");
 
@@ -22,6 +24,8 @@ export const updateUserFn = async (userId , userInfo, dataSource) => {
 
       await userNameExist(userName, dataSource);
    }
+
+   if (typeof password !== "undefined" && !password) throw new Error("password missing");
 
    return await dataSource.patch(userId, { ...userInfo });
 };
@@ -42,12 +46,35 @@ const userNameExist = async (userName, dataSource) => {
    }
 };
 
-const createUserInfo = async (data, dataSource) => {
-   const { firstName, lastName, userName } = data;
+const validateUserPassword = (password) => {
+   // Letra maiúscula, letra minúscula e número
+   const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,30}$/;
 
-   if(!firstName || !lastName || !userName) throw new Error("You have to send firstName, lastName and userName");
+   if (!password.match(strongPasswordRegex)) {
+      throw new Error("Password must contain at least: One lower case letter, one upper case letter and one number.");
+   }
+};
+
+const createUserInfo = async (data, dataSource) => {
+   const { firstName, lastName, userName, password } = data;
+
+   if (!firstName || !lastName || !userName, !password) {
+      throw new Error("You have to send firstName, lastName, userName and password")
+   };
 
    await userNameExist(userName, dataSource);
+
+   if (password) {
+      validateUserPassword(password);
+   }
+
+   let passwordHash;
+
+   if (password && !data.passwordHash) {
+      passwordHash = await bcrypt.hash(password, 12);
+
+      delete data.password;
+   }
 
    const indexRefUser = await dataSource.get("", {
       _limit: 1,
@@ -62,6 +89,7 @@ const createUserInfo = async (data, dataSource) => {
       lastName,
       userName,
       indexRef,
+      passwordHash,
       createdAt: new Date().toISOString()
    };
 };
