@@ -11,7 +11,6 @@ export function createJwtToken(payload) {
       process.env.JWL_SECRET_KEY,
       {
          expiresIn: "1d",
-
       }
    )
 }

@@ -1,4 +1,5 @@
-import { ValidationError } from "apollo-server";
+import { AuthenticationError, ValidationError } from "apollo-server";
+import { FetchError } from "node-fetch";
 
 export const createPostFn = async (postData, dataSource) => {
    const postInfo = await createPostInfo(postData, dataSource);
@@ -10,10 +11,28 @@ export const createPostFn = async (postData, dataSource) => {
    return await dataSource.post("", { ...postInfo });
 };
 
+export async function findPostOwner(postId, dataSource) {
+   const foundPost = await dataSource.get(postId, null, {
+      cacheOptions: { ttl: 0 }
+   });
+
+   if (!foundPost) {
+      throw new FetchError("Could not find post you are looking for.");
+   }
+
+   if (foundPost.userId !== dataSource.context.loggedUserId) {
+      throw new AuthenticationError("You cannot update this post");
+   }
+
+   return foundPost;
+};
+
 export const updatePostFn = async (postId, postData, dataSource) => {
    if(!postId) throw new ValidationError("Missing postId");
 
-   const { title, body, userId } = postData;
+   const { userId } = await findPostOwner(postId, dataSource);
+
+   const { title, body } = postData;
 
    if(typeof title !== "undefined") {
       if(!title) throw new ValidationError("title missing");
@@ -31,9 +50,11 @@ export const updatePostFn = async (postId, postData, dataSource) => {
 
    return await dataSource.patch(postId, { ...postData });
 };
- 
+
 export const deletePostFn = async (postId, dataSource) => {
    if(!postId) throw new ValidationError("Missing postId");
+
+   await findPostOwner(postId, dataSource);
 
    const deleted = await dataSource.delete(postId);
 
