@@ -1,3 +1,5 @@
+import { AuthenticationError } from "apollo-server";
+
 // Query
 const users = async (_, { urlFilter }, { dataSources }) => {
    const users = await dataSources.userApi.getUsers(urlFilter);
@@ -17,7 +19,11 @@ const createUser = async (_, { data }, { dataSources }) => {
    return await dataSources.userApi.createUser(data);
 };
 
-const updateUser = async (_, { userId, data }, { dataSources }) => {
+const updateUser = async (_, { userId, data }, { dataSources, loggedUserId }) => {
+   if (!loggedUserId) throw new AuthenticationError("You must be logged in");
+
+   if(loggedUserId !== userId) throw new AuthenticationError("You cannot update this user");
+
    return await dataSources.userApi.updateUser(userId, data);
 };
 

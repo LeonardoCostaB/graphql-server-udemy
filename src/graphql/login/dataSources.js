@@ -28,8 +28,6 @@ export class LoginApi extends RESTDataSource {
          { cacheOptions: { ttl: 0 } }
       );
 
-      console.log(user);
-
       const userFound = !!user.length;
 
       if (!userFound) {
@@ -37,8 +35,6 @@ export class LoginApi extends RESTDataSource {
       }
 
       const { passwordHash, id: userId } = user[0];
-
-      console.log(password, passwordHash)
 
       const isPasswordValid = await checkUserPassoword(
          password,
@@ -50,6 +46,7 @@ export class LoginApi extends RESTDataSource {
       }
 
       const token = createJwtToken({ userId });
+      await this.patch(userId, { token }, { cacheOptions: { ttl: 0 } });
 
       return {
          userId,

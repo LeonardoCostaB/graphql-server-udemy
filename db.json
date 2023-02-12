@@ -161,13 +161,14 @@
       "createdAt": "2016-12-08T00:49:39.870Z"
     },
     {
-      "firstName": "Leonardo",
+      "firstName": "leonardo",
       "lastName": "Costa",
       "userName": "Leonardo_costa2",
       "indexRef": 21,
       "passwordHash": "$2b$12$y7U3ISOcCBAnbsL4jq3xtO0IsGK6TGI3TSiDxvtDSIzDYpja.zqd6",
       "createdAt": "2023-01-27T00:40:12.771Z",
-      "id": "rQ78F2e"
+      "id": "rQ78F2e",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJyUTc4RjJlIiwiaWF0IjoxNjc2MjI3OTUxLCJleHAiOjE2NzYzMTQzNTF9.h6fvOkly3yRgmS15kwyOe6fe4KDZ7BCTJCtmr7Lgg1I"
     }
   ],
   "posts": [
