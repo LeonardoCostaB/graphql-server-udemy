@@ -21,7 +21,7 @@ export class LoginApi extends RESTDataSource {
     * sistema não faça cache
     */
 
-   async login(userName, password) {
+   async getUser(userName) {
       const user = await this.get(
          "",
          { userName },
@@ -33,6 +33,12 @@ export class LoginApi extends RESTDataSource {
       if (!userFound) {
          throw new AuthenticationError("User or password incorrect")
       }
+
+      return user;
+   }
+
+   async login(userName, password) {
+      const user = await this.getUser(userName);
 
       const { passwordHash, id: userId } = user[0];
 
@@ -52,5 +58,17 @@ export class LoginApi extends RESTDataSource {
          userId,
          token
       }
+   }
+
+   async logout(userName) {
+      const user = await this.getUser(userName);
+
+      if (user[0].id !== this.context.loggedUserId) {
+         throw new AuthenticationError("You are not this user");
+      }
+
+      await this.patch(user[0].id, { token: "" }, { cacheOptions: { ttl: 0 } });
+
+      return true;
    }
 }
