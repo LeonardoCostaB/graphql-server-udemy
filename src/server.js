@@ -10,6 +10,10 @@ const server = new ApolloServer({
    typeDefs,
    resolvers,
    context,
+   cors: {
+      origin: "https://studio.apollographql.com",
+      credentials: true,
+   },
 
    dataSources: () => {
       return {
@@ -17,7 +21,13 @@ const server = new ApolloServer({
          userApi: new UserApi(),
          loginApi: new LoginApi(),
       }
-   }
+   },
+
+   /**
+    * @description Por segurança é sempre bom desativar pois com ele ativo fico mais vuneravel a
+    * requisição que tenha o formato de form-data
+    */
+   upload: false,
 });
 
 server.listen(5000).then(({ url }) => console.log(`Server is running ${url}`))

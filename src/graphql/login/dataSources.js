@@ -54,6 +54,40 @@ export class LoginApi extends RESTDataSource {
       const token = createJwtToken({ userId });
       await this.patch(userId, { token }, { cacheOptions: { ttl: 0 } });
 
+      this.context.res.cookie("jwtToken", token, {
+         /** @description
+          * Rede segura - https ----
+          * quando esse servidor for para a produção por como true. No localhost não existe
+          * https
+          */
+         secure: true,
+
+         /** @description
+          * Http only significa dizer que esse meu cookie não pode ser acessado por código.
+          * Somente trafega via http
+          */
+         httpOnly: true,
+
+         /** @description
+          * maxAge é o tempo de expiração do cookie, aqui ele é contabilizado por milisegundos
+          */
+         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+
+         path: "/", // onde o cookie vai ser válido,
+
+         /** @description
+          * Existe três tipos de navegações de cookie
+          * 1°: strict: Ela quer dizer bem resumidamente que o nosso cookie vai ser usado no mesmo dominio, ou seja,
+          *     o mesmo dominio que faz a requisição recebe o cookie.
+          * 2°: lax: Lax permite que eu use o cookie em diferentes endereço, contanto que o meu usuário faça requisição
+          *     a nível de topo, ou seja, mude a barra de endereço do navegador.
+          * 3°: none: Ele permite que o meu navegador mande o meu cookie para qualquer endereço que eu solicitar, porém
+          *     para poder utilizar o none tenho que deixar secure como true, uma que vez que diferente disso o navegador,
+          *     não irá permitir a solicitação e bloqueará o cookie
+          */
+         sameSite: "none",
+      })
+
       return {
          userId,
          token
@@ -68,6 +102,7 @@ export class LoginApi extends RESTDataSource {
       }
 
       await this.patch(user[0].id, { token: "" }, { cacheOptions: { ttl: 0 } });
+      this.context.res.clearCookie('jwtToken')
 
       return true;
    }

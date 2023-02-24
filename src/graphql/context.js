@@ -1,11 +1,8 @@
 import  jwt  from "jsonwebtoken";
 import { UserApi } from "./user/dataSources.js";
 
-async function authorizeUser(req) {
-   const { authorization } = req.headers;
-
+async function verifyJwtToken(token) {
    try {
-      const [_barear, token] = authorization.split(" ");
       const { userId } = jwt.verify(token, process.env.JWL_SECRET_KEY)
 
       const userApi = new UserApi();
@@ -14,19 +11,67 @@ async function authorizeUser(req) {
 
       if (foundUser.token !== token) return "";
 
-
       return userId;
+
    } catch (error) {
-      console.log(error);
       return "";
    }
 }
 
-export async function context({ req }) {
-   const loggedUserId = await authorizeUser(req);
+const cookieParser = (cookiesHeader) => {
+   /**
+    * The final goal is to return an object with key/value reflecting
+    * the cookies. So, this functions always returns an object.
+    * */
+
+   // If we do not receive a string, we won't do anything.
+   if (typeof cookiesHeader != 'string') return {};
+
+   const cookies = cookiesHeader.split(/;\s*/);
+
+   /**
+    * If we have something similar to cookie, we want to add them
+    * to the final object
+    * */
+   const parsedCookie = {};
+   for (let i = 0; i < cookies.length; i++) {
+     const [key, value] = cookies[i].split('=');
+     parsedCookie[key] = value;
+   }
+
+   /**
+    * The reason I'm using JSON here is to make sure the final
+    * object won't have any undefined value.
+    * */
+   return JSON.parse(JSON.stringify(parsedCookie));
+};
+
+async function authorizationUserWithBearerToken(req) {
+   const { authorization } = req.headers;
+
+   try {
+      const [_barear, token] = authorization.split(" ");
+
+      return await verifyJwtToken(token);
+
+   } catch (error) {
+      return "";
+   }
+}
+
+export async function context({ req, res }) {
+   let loggedUserId = await authorizationUserWithBearerToken(req);
+
+   if (!loggedUserId) {
+      if (req.headers.cookie) {
+         const { jwtToken } = cookieParser(req.headers.cookie);
+         loggedUserId = await verifyJwtToken(jwtToken);
+      }
+   }
 
    return {
       loggedUserId,
+      res,
       filterParams: (params) => {
          return new URLSearchParams(params);
       }

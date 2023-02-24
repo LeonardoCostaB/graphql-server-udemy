@@ -12,7 +12,7 @@ export class PostApi extends RESTDataSource {
    async getPosts(params = {}) {
       return this.get("", params, {
          cacheOptions: {
-            ttl: 60
+            ttl: 0
          }
       });
    }
@@ -20,7 +20,7 @@ export class PostApi extends RESTDataSource {
    async getPost(id) {
       return this.get(id, undefined, {
          cacheOptions: {
-            ttl: 60
+            ttl: 0
          }
       });
    }
