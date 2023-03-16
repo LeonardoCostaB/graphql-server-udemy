@@ -1,5 +1,5 @@
 import  jwt  from "jsonwebtoken";
-import { UserApi } from "./user/dataSources.js";
+import { UserApi } from "../schema/user/dataSources.js";
 
 async function verifyJwtToken(token) {
    try {

@@ -168,7 +168,7 @@
       "passwordHash": "$2b$12$Th8DISQl4bV1eGGm.tupq.VORJXRjsQ2VtLNpjq4YkNuRcaER7NV2",
       "createdAt": "2023-02-12T19:42:23.130Z",
       "id": "71AVDXZ",
-      "token": ""
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3MUFWRFhaIiwiaWF0IjoxNjc4OTc4Njk2LCJleHAiOjE2NzkwNjUwOTZ9.pGKZ-GZxbeVYpUDqgYdwut1pC5003yQZr_tUAy7NwFQ"
     },
     {
       "firstName": "Leonardo",
@@ -591,6 +591,12 @@
       "postId": "361",
       "indexRef": 10,
       "createdAt": "2018-03-01T18:38:37.310Z"
+    },
+    {
+      "userId": "71AVDXZ",
+      "postId": "860",
+      "comment": "criando comentário",
+      "id": "1MI6m9z"
     }
   ]
 }

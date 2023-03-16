@@ -1,10 +1,11 @@
 import "dotenv/config";
 import { ApolloServer } from "apollo-server";
-import { resolvers, typeDefs } from "./graphql/index.js";
-import { PostApi } from "./graphql/post/dataSources.js";
-import { UserApi } from "./graphql/user/dataSources.js";
-import { LoginApi } from "./graphql/login/dataSources.js";
-import { context } from "./graphql/context.js";
+import { resolvers, typeDefs } from "./graphql/schema/index.js";
+import { PostApi } from "./graphql/schema/post/dataSources.js";
+import { UserApi } from "./graphql/schema/user/dataSources.js";
+import { CommentApi } from "./graphql/schema/comment/dataSources.js";
+import { LoginApi } from "./graphql/schema/login/dataSources.js";
+import { context } from "./graphql/context/index.js";
 
 const server = new ApolloServer({
    typeDefs,
@@ -20,6 +21,7 @@ const server = new ApolloServer({
          postApi: new PostApi(),
          userApi: new UserApi(),
          loginApi: new LoginApi(),
+         commentApi: new CommentApi(),
       }
    },
 

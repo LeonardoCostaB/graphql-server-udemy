@@ -2,12 +2,18 @@ import { gql } from "apollo-server";
 
 import { userTypeDefs } from "./user/typeDefs.js";
 import { userResolvers } from "./user/resolvers.js";
+
 import { postTypeDefs } from "./post/typeDefs.js";
 import { postResolvers } from "./post/resolvers.js";
+
 import { apiFilterTypeDefs } from "./api-filter/typeDefs.js";
 import { resolversApiFilter } from "./api-filter/resolvers.js";
+
 import { loginTypeDefs } from "./login/typeDefs.js";
 import { loginResolvers } from "./login/resolvers.js";
+
+import { commentTypeDefs } from "./comment/typedefs.js";
+import { createResolvers } from "./comment/resolvers.js";
 
 const rootTypeDefs = gql`
    type Query {
@@ -35,6 +41,7 @@ export const typeDefs = [
    postTypeDefs,
    apiFilterTypeDefs,
    loginTypeDefs,
+   commentTypeDefs,
 ];
 export const resolvers = [
    rootResolvers,
@@ -42,4 +49,5 @@ export const resolvers = [
    postResolvers,
    resolversApiFilter,
    loginResolvers,
+   createResolvers,
 ];
