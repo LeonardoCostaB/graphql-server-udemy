@@ -11,21 +11,18 @@ const createComment = async (_, { data }, { dataSources, loggedUserId }) => {
 
    const commentAlreadyExists = await dataSources.commentApi.getComment(postId, comment);
 
-   if (commentAlreadyExists.length > 0) throw new ValidationError("comment Already Exists")
-
-   console.log(commentAlreadyExists);
+   if (commentAlreadyExists.length > 0) throw new ValidationError("comment Already Exists");
 
    return dataSources.commentApi.createComment({
       userId: loggedUserId,
       postId,
       comment,
+      createdAt: new Date().toISOString()
    });
 }
 
 const user = async ({ userId }, _, { dataSources }) => {
-   const user = await dataSources.userApi.dataLoader.load(userId);
-
-   return user;
+   return dataSources.userApi.dataLoader.load(userId);
 }
 
 export const createResolvers = {

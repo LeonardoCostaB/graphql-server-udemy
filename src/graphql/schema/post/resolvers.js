@@ -46,18 +46,21 @@ const deletePost = async (_, { postId }, { dataSources, loggedUserId }) => {
 // Field Resolvers
 const user = ({ userId }, _, { dataSources }) =>  dataSources.userApi.dataLoader.load(userId);
 
+const comments = async ({ id }, _, { dataSources }) => dataSources.commentApi.dataLoader.load(id);
+
 export const postResolvers = {
    Query: {
       posts,
-      post
+      post,
    },
    Mutation: {
       createPost,
       updatePost,
-      deletePost
+      deletePost,
    },
    Post: {
-      user
+      user,
+      comments,
    },
    PostResponse: {
       __resolveType: (obj) => {
@@ -65,6 +68,6 @@ export const postResolvers = {
          if(typeof obj.id !== "undefined") return "Post";
 
          return null;
-      }
-   }
+      },
+   },
 };
