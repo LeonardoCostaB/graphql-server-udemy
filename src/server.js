@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { ApolloServer } from "apollo-server";
+
 import { resolvers, typeDefs } from "./graphql/schema/index.js";
 import { PostApi } from "./graphql/schema/post/dataSources.js";
 import { UserApi } from "./graphql/schema/user/dataSources.js";
@@ -24,6 +25,12 @@ const server = new ApolloServer({
          commentApi: new CommentApi(),
       }
    },
+
+   plugins: [
+      {
+         subs
+      }
+   ],
 
    /**
     * @description Por segurança é sempre bom desativar pois com ele ativo fico mais vuneravel a

@@ -8,7 +8,6 @@ export class CommentApi extends RESTDataSource {
       this.dataLoader = commentDataLoader(this.getPostId.bind());
    }
 
-
    async getPostId(postId) {
       return this.get(postId, undefined, { cacheOptions: { ttl: 0 } });
    }

@@ -47,6 +47,8 @@ const cookieParser = (cookiesHeader) => {
 };
 
 async function authorizationUserWithBearerToken(req) {
+   if (!req || !req.headers || !req.headers.authorization) return "";
+
    const { authorization } = req.headers;
 
    try {
@@ -63,7 +65,7 @@ export async function context({ req, res }) {
    let loggedUserId = await authorizationUserWithBearerToken(req);
 
    if (!loggedUserId) {
-      if (req.headers.cookie) {
+      if (req && req.headers && req.headers.cookie) {
          const { jwtToken } = cookieParser(req.headers.cookie);
          loggedUserId = await verifyJwtToken(jwtToken);
       }

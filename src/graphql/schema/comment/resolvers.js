@@ -1,4 +1,9 @@
 import { AuthenticationError, ValidationError } from "apollo-server";
+import { PubSub  } from "graphql-subscriptions";
+
+const pubsub = new PubSub();
+
+export const CREATED_COMMENT_TRIGGER = "CREATED_COMMENT";
 
 const createComment = async (_, { data }, { dataSources, loggedUserId }) => {
    const { postId, comment } = data;
@@ -13,19 +18,34 @@ const createComment = async (_, { data }, { dataSources, loggedUserId }) => {
 
    if (commentAlreadyExists.length > 0) throw new ValidationError("comment Already Exists");
 
-   return dataSources.commentApi.createComment({
+   const commentData = {
       userId: loggedUserId,
       postId,
       comment,
       createdAt: new Date().toISOString()
-   });
+   }
+
+   pubsub.publish(CREATED_COMMENT_TRIGGER, {
+      createdComment: commentData
+   })
+
+   return dataSources.commentApi.createComment(commentData);
 }
 
 const user = async ({ userId }, _, { dataSources }) => {
    return dataSources.userApi.dataLoader.load(userId);
 }
 
+// SUBSCRIPTION
+const createdComment = {
+   subscribe: (_, __, ctx) => {
+      console.log(ctx)
+      return pubsub.asyncIterator(CREATED_COMMENT_TRIGGER)
+   }
+}
+
 export const createResolvers = {
    Mutation: { createComment },
+   Subscription: { createdComment },
    Comment: { user },
 }

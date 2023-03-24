@@ -178,7 +178,7 @@
       "passwordHash": "$2b$12$AGfMterX7KfUQjn.DxTZtucE0qlrHm.7lpSswT6vbqfkbAiTXnPaa",
       "createdAt": "2023-02-12T23:14:48.406Z",
       "id": "YbZyo7_",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJZYlp5bzdfIiwiaWF0IjoxNjc5NDQ5MTgzLCJleHAiOjE2Nzk1MzU1ODN9.1EfKDwUGc67FK-Pi7Td6gzXkG-ps6hJX_VHKRzyoZUs"
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJZYlp5bzdfIiwiaWF0IjoxNjc5NjE5MjI2LCJleHAiOjE2Nzk3MDU2MjZ9.uLMgdOEwcgiieDb_jewr7ojrL2fCE1EKMxUA-MmLP8Y"
     }
   ],
   "posts": [
@@ -598,6 +598,20 @@
       "comment": "criando comentário",
       "createdAt": "2023-03-19T00:02:59.918Z",
       "id": "ojTYtgR"
+    },
+    {
+      "userId": "YbZyo7_",
+      "postId": "860",
+      "comment": "criando comentário 1",
+      "createdAt": "2023-03-23T01:01:06.909Z",
+      "id": "KL8bQh_"
+    },
+    {
+      "userId": "YbZyo7_",
+      "postId": "860",
+      "comment": "criando comentário 65",
+      "createdAt": "2023-03-24T00:26:52.838Z",
+      "id": "Hcp-USs"
     }
   ]
 }
