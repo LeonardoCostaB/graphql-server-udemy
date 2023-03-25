@@ -1,5 +1,5 @@
 import { AuthenticationError, ValidationError } from "apollo-server";
-import { PubSub  } from "graphql-subscriptions";
+import { PubSub } from "graphql-subscriptions";
 
 const pubsub = new PubSub();
 
@@ -44,7 +44,7 @@ const createdComment = {
    }
 }
 
-export const createResolvers = {
+export const commentResolvers = {
    Mutation: { createComment },
    Subscription: { createdComment },
    Comment: { user },

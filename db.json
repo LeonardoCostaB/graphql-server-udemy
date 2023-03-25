@@ -178,7 +178,7 @@
       "passwordHash": "$2b$12$AGfMterX7KfUQjn.DxTZtucE0qlrHm.7lpSswT6vbqfkbAiTXnPaa",
       "createdAt": "2023-02-12T23:14:48.406Z",
       "id": "YbZyo7_",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJZYlp5bzdfIiwiaWF0IjoxNjc5NjE5MjI2LCJleHAiOjE2Nzk3MDU2MjZ9.uLMgdOEwcgiieDb_jewr7ojrL2fCE1EKMxUA-MmLP8Y"
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJZYlp5bzdfIiwiaWF0IjoxNjc5NjIyMzYzLCJleHAiOjE2Nzk3MDg3NjN9.oacRB8WpGvgOsLPqoBZG8_fDJ3zEL2TdD2Es7szFzrI"
     }
   ],
   "posts": [
@@ -612,6 +612,13 @@
       "comment": "criando comentário 65",
       "createdAt": "2023-03-24T00:26:52.838Z",
       "id": "Hcp-USs"
+    },
+    {
+      "userId": "YbZyo7_",
+      "postId": "860",
+      "comment": "test",
+      "createdAt": "2023-03-24T01:58:42.858Z",
+      "id": "1nWlgFa"
     }
   ]
 }

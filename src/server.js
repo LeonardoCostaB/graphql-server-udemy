@@ -26,12 +26,6 @@ const server = new ApolloServer({
       }
    },
 
-   plugins: [
-      {
-         subs
-      }
-   ],
-
    /**
     * @description Por segurança é sempre bom desativar pois com ele ativo fico mais vuneravel a
     * requisição que tenha o formato de form-data

@@ -13,7 +13,7 @@ import { loginTypeDefs } from "./login/typeDefs.js";
 import { loginResolvers } from "./login/resolvers.js";
 
 import { commentTypeDefs } from "./comment/typedefs.js";
-import { createResolvers } from "./comment/resolvers.js";
+import { commentResolvers } from "./comment/resolvers.js";
 
 const rootTypeDefs = gql`
    type Query {
@@ -57,5 +57,5 @@ export const resolvers = [
    postResolvers,
    resolversApiFilter,
    loginResolvers,
-   createResolvers,
+   commentResolvers,
 ];
