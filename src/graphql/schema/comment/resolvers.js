@@ -25,10 +25,6 @@ const createComment = async (_, { data }, { dataSources, loggedUserId }) => {
       createdAt: new Date().toISOString()
    }
 
-   pubsub.publish(CREATED_COMMENT_TRIGGER, {
-      createdComment: commentData
-   })
-
    return dataSources.commentApi.createComment(commentData);
 }
 
@@ -46,6 +42,5 @@ const createdComment = {
 
 export const commentResolvers = {
    Mutation: { createComment },
-   Subscription: { createdComment },
    Comment: { user },
 }

@@ -37,10 +37,6 @@ const rootResolvers = {
    Mutation: {
       _root: () => true
    },
-
-   Subscription: {
-      _root: () => true
-   }
 };
 
 export const typeDefs = [
