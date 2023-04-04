@@ -5,11 +5,11 @@ export class CommentApi extends RESTDataSource {
    constructor() {
       super();
       this.baseURL = `${process.env.API_URL}/comments/`;
-      this.dataLoader = commentDataLoader(this.getPostId.bind());
+      this.dataLoader = commentDataLoader(this.getPostId.bind(this));
    }
 
-   async getPostId(postId) {
-      return this.get(postId, undefined, { cacheOptions: { ttl: 0 } });
+   async getPostId() {
+      return this.get("", {}, { cacheOptions: { ttl: 0 } });
    }
 
    async getComment(postId, comment) {
