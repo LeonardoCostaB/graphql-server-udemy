@@ -9,6 +9,8 @@ export const createUserFn = async (data, dataSource) => {
 export const updateUserFn = async (userId , userInfo, dataSource) => {
    const { firstName, lastName, userName, password } = userInfo;
 
+   const verifyUserName = await dataSource.get(userId)
+
    if(!userId) throw new Error("userId is required");
 
    if(typeof firstName !== "undefined") {
@@ -22,12 +24,22 @@ export const updateUserFn = async (userId , userInfo, dataSource) => {
    if(typeof userName !== "undefined") {
       if(!userName) throw new Error("userName missing");
 
-      await userNameExist(userName, dataSource);
+      if (!(verifyUserName.userName === userName)) await userNameExist(userName, dataSource);
    }
 
    if (typeof password !== "undefined" && !password) throw new Error("password missing");
 
-   return await dataSource.patch(userId, { ...userInfo });
+   let passwordHash;
+
+   if (password) {
+      validateUserPassword(password);
+
+      passwordHash = await bcrypt.hash(password, 12);
+
+      delete userInfo.password;
+    }
+
+   return await dataSource.patch(userId, { ...userInfo, passwordHash });
 };
 
 export const deleteUserFn = async (userId , dataSource) => {
@@ -93,3 +105,34 @@ const createUserInfo = async (data, dataSource) => {
       createdAt: new Date().toISOString()
    };
 };
+
+const checkUserFields = async (user, allFieldsRequired = false) => {
+   const userFields = ['firstName', 'lastName', 'userName', 'password'];
+
+   for (const field of userFields) {
+     if (!allFieldsRequired) {
+       if (typeof user[field] === 'undefined') {
+         continue;
+       }
+     }
+
+     if (field === 'userName') {
+       validateUserName(user[field]);
+     }
+
+     if (field === 'password') {
+       validateUserPassword(user[field]);
+     }
+
+     if (!user[field]) {
+       throw new Error(`Missing ${field}`);
+     }
+   }
+
+   if (user.password && !user.passwordHash) {
+     const { password } = user;
+     const passwordHash = await bcrypt.hash(password, 12);
+     user.passwordHash = passwordHash;
+     delete user['password'];
+   }
+ };

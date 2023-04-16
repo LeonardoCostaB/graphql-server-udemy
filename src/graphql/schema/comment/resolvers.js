@@ -35,7 +35,6 @@ const user = async ({ userId }, _, { dataSources }) => {
 // SUBSCRIPTION
 const createdComment = {
    subscribe: (_, __, ctx) => {
-      console.log(ctx)
       return pubsub.asyncIterator(CREATED_COMMENT_TRIGGER)
    }
 }

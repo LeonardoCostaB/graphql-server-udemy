@@ -12,13 +12,6 @@ const posts = async (_, { urlFilter }, { dataSources, loggedUserId }) => {
 const post = async (_, { id }, { dataSources }) => {
    const response = await dataSources.postApi.getPost(id);
 
-   if(typeof response.id === "undefined") {
-      return {
-         statusCode: 404,
-         message: "Post não existe, verifique e tente novamente"
-      }
-   }
-
    return response;
 };
 
